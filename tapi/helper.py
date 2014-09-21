@@ -11,6 +11,7 @@ class Log(object):
         logging.basicConfig(filename=f,
                             level=logging.DEBUG,
                             format=FORMAT)
+        self.f = f
 
     def info(self, string):
         logging.info(string)
@@ -26,7 +27,7 @@ class Log(object):
 
     def exception(self, string):
         FORMAT = '%(asctime)s %(levelname)s %(message)s %(funcName)s exc_info'
-        logging.basicConfig(filename=f,
+        logging.basicConfig(filename=self.f,
                             level=logging.DEBUG,
                             format=FORMAT)
         logging.exception(string)

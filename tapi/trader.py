@@ -83,7 +83,8 @@ class trade(object):
         test = api.tradeapi(self.config.apikey, self.config.apisecret)
         # store the output
         self.rights = test.poll().get('return').get('rights')
-        if isinstance(self.rights, None):
+
+        if not isinstance(self.rights, dict):
             self.log.warning('keycheck rights are Nonetype')
             self.log.warning(self.rights)
             import sys
@@ -468,7 +469,7 @@ class signals(object):
         self.config.updateSignals()
         if single != self.config.single:
             self.single.changeReqPoints(self.config.single)
-            log.info('Single MA is now %s' % (self.config.single))
+            self.log.info('Single MA is now %s' % (self.config.single))
 
     def dualPoints(self):
         # store current values
@@ -479,10 +480,10 @@ class signals(object):
         # check for changes
         if fast != self.config.fast:
             self.fastMA.changeReqPoints(self.config.fast)
-            log.info('fastMA is now %s' % (self.config.fast))
-        if oldslow != config.slow:
+            self.log.info('fastMA is now %s' % (self.config.fast))
+        if oldslow != self.config.slow:
             self.slowMA.changeReqPoints(self.config.slow)
-            log.info('slowMA is now %s' % (self.config.slow))
+            self.log.info('slowMA is now %s' % (self.config.slow))
 
     def ribbonPoints(self):
         start = self.config.ribbonStart
@@ -492,7 +493,7 @@ class signals(object):
             self.rib1.changeReqPoints(start)
             self.rib2.changeReqPoints(start + step)
             self.rib3.changeReqPoints(start + step + step)
-            log.info(
+            self.log.info(
                 'Ribbon start: %s, spacing: %s' % (self.config.ribbonStart,
                                                    self.config.ribbonSpacing))
 
